@@ -114,14 +114,14 @@ class RideBookingAgent(Agent):
             raise _tool_error(exc) from exc
 
     @function_tool()
-    async def select_ride_option(self, option_id: str) -> dict:
+    async def select_ride_option(self, product_id: str) -> dict:
         """Freeze one available product and its fare range from the latest quote."""
         try:
-            option = self.state.select_product(option_id)
+            option = self.state.select_product(product_id)
             if self.client.harness_mode:
                 result = {"selected": True, "option": option}
                 self.client.record_local(
-                    "select_ride_option", {"option_id": option_id}, result
+                    "select_ride_option", {"product_id": product_id}, result
                 )
                 return result
             return {"selected": True, "option": option}
@@ -201,13 +201,5 @@ class RideBookingAgent(Agent):
             )
             self.state.booking_ref = result.get("booking_ref")
             return result
-        except Exception as exc:
-            raise _tool_error(exc) from exc
-
-    @function_tool()
-    async def transfer_to_human(self, reason: str) -> dict:
-        """Request a human handoff for unsupported, account-blocked, safety, or failed-service cases."""
-        try:
-            return await self.client.call("transfer_to_human", reason=reason)
         except Exception as exc:
             raise _tool_error(exc) from exc

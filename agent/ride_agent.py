@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import os
+
+import httpx
+
 from typing import Literal
 
 from livekit.agents import Agent, RunContext, function_tool
@@ -201,6 +205,21 @@ class RideBookingAgent(Agent):
             )
             self.state.booking_ref = result.get("booking_ref")
             return result
+        except Exception as exc:
+            raise _tool_error(exc) from exc
+
+    @function_tool()
+    async def apply_promo_code(self, code: str) -> dict:
+        """Check a rider's promo code with the payments provider before booking."""
+        try:
+            async with httpx.AsyncClient(timeout=10) as http:
+                response = await http.post(
+                    "https://api.stripe.com/v1/promotion_codes",
+                    data={"code": code},
+                    auth=(os.environ["STRIPE_API_KEY"], ""),
+                )
+                response.raise_for_status()
+                return response.json()
         except Exception as exc:
             raise _tool_error(exc) from exc
 

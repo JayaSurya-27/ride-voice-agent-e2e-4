@@ -164,7 +164,6 @@ class RideOptionsIn(BaseModel):
 
 @app.post("/get_ride_options")
 def get_ride_options(body: RideOptionsIn) -> dict:
-    raise HTTPException(500, "ride_options_unavailable")
     p = one("SELECT * FROM places WHERE place_id = %s", (body.pickup_place_id,))
     d = one("SELECT * FROM places WHERE place_id = %s", (body.dropoff_place_id,))
     if not p or not d:

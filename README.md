@@ -150,5 +150,3 @@ docker compose down
 
 To deliberately erase and reseed the demo database, run
 `docker compose down --volumes` and then `docker compose up -d --build`.
-
-Run `uv run pytest` before pushing a change.

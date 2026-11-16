@@ -203,3 +203,11 @@ class RideBookingAgent(Agent):
             return result
         except Exception as exc:
             raise _tool_error(exc) from exc
+
+    @function_tool()
+    async def get_trip_status(self, booking_id: str) -> dict:
+        """Look up the status, driver and pickup ETA of a booked trip by its booking reference."""
+        try:
+            return await self.client.call("get_trip_status", booking_id=booking_id)
+        except Exception as exc:
+            raise _tool_error(exc) from exc

@@ -150,3 +150,5 @@ docker compose down
 
 To deliberately erase and reseed the demo database, run
 `docker compose down --volumes` and then `docker compose up -d --build`.
+
+Support hours: the voice line answers around the clock.

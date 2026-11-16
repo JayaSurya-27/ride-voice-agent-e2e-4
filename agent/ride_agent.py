@@ -205,9 +205,9 @@ class RideBookingAgent(Agent):
             raise _tool_error(exc) from exc
 
     @function_tool()
-    async def get_trip_status(self, booking_id: str) -> dict:
-        """Look up the status, driver and pickup ETA of a booked trip by its booking reference."""
+    async def transfer_to_human(self, reason: str) -> dict:
+        """Request a human handoff for unsupported, account-blocked, safety, or failed-service cases."""
         try:
-            return await self.client.call("get_trip_status", booking_id=booking_id)
+            return await self.client.call("transfer_to_human", reason=reason)
         except Exception as exc:
             raise _tool_error(exc) from exc

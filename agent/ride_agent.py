@@ -93,7 +93,7 @@ class RideBookingAgent(Agent):
             raise _tool_error(exc) from exc
 
     @function_tool()
-    async def get_ride_options(self) -> dict:
+    async def get_ride_options(self) -> dict
         """Get fresh fares, pickup ETAs, availability, distance, and surge after both addresses are confirmed."""
         try:
             self.state.ensure_bookable()

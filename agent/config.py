@@ -12,13 +12,6 @@ def build_deepgram_stt(api_key: str, model: str):
     return deepgram.STT(api_key=api_key, model=model)
 
 
-def vertex_client():
-    """Gemini on Vertex AI with the runtime's default Google credentials."""
-    from google import genai
-
-    return genai.Client(vertexai=True)
-
-
 def google_llm_kwargs() -> dict:
     """The LLM runs on the Gemini API with an API key (no Vertex)."""
     api_key = os.environ.get("GEMINI_API_KEY")

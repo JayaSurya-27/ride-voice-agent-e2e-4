@@ -151,4 +151,4 @@ docker compose down
 To deliberately erase and reseed the demo database, run
 `docker compose down --volumes` and then `docker compose up -d --build`.
 
-Local ports can be changed with PG_PORT and TOOLS_PORT.
+Run `uv run pytest` before pushing a change.

@@ -114,14 +114,14 @@ class RideBookingAgent(Agent):
             raise _tool_error(exc) from exc
 
     @function_tool()
-    async def select_ride_option(self, product_id: str) -> dict:
+    async def select_ride_option(self, option_id: str) -> dict:
         """Freeze one available product and its fare range from the latest quote."""
         try:
-            option = self.state.select_product(product_id)
+            option = self.state.select_product(option_id)
             if self.client.harness_mode:
                 result = {"selected": True, "option": option}
                 self.client.record_local(
-                    "select_ride_option", {"product_id": product_id}, result
+                    "select_ride_option", {"option_id": option_id}, result
                 )
                 return result
             return {"selected": True, "option": option}
@@ -201,14 +201,6 @@ class RideBookingAgent(Agent):
             )
             self.state.booking_ref = result.get("booking_ref")
             return result
-        except Exception as exc:
-            raise _tool_error(exc) from exc
-
-    @function_tool()
-    async def get_trip_status(self, booking_id: str) -> dict:
-        """Look up the status, driver and pickup ETA of a booked trip by its booking reference."""
-        try:
-            return await self.client.call("get_trip_status", booking_id=booking_id)
         except Exception as exc:
             raise _tool_error(exc) from exc
 

@@ -334,22 +334,6 @@ def book_ride(body: BookIn) -> dict:
     }
 
 
-class TripStatusIn(BaseModel):
-    booking_id: str
-
-
-@app.post("/get_trip_status")
-def get_trip_status(body: TripStatusIn) -> dict:
-    row = one(
-        "SELECT booking_ref, status, driver_name, vehicle, plate, eta_pickup_min"
-        " FROM bookings WHERE booking_ref = %s",
-        (body.booking_id,),
-    )
-    if not row:
-        raise HTTPException(404, "unknown_booking")
-    return dict(row)
-
-
 class TransferIn(BaseModel):
     reason: str
 
